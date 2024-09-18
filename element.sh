@@ -5,3 +5,25 @@
 
 # Connect to database
 PSQL="psql --username=freecodecamp --dbname=periodic_table --no-align --tuples-only -c"
+
+# Get user input from arg 1
+USER_INPUT=$1
+
+# Check if any input given
+if [[ -z $USER_INPUT ]]; then
+  # Error to user, if no argument provided
+  echo -e "Please provide an element as an argument."
+else
+  # Query database using user input
+  FIND_ELEMENT_RESULT=$($PSQL "SELECT * FROM elements WHERE atomic_number = $USER_INPUT OR symbol = '$USER_INPUT' OR name = '$USER_INPUT'")
+
+  # Check if input matches atomic_number, symbol, or name from database
+  if [[ -z $FIND_ELEMENT_RESULT ]]
+  then
+    # If not found, error to user and exit
+    echo "Element not found"
+  else
+    # If found, print information to user
+    echo "Element found"
+  fi
+fi
