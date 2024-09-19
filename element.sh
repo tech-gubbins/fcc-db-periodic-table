@@ -27,7 +27,7 @@ else
   if [[ -z $FIND_ELEMENT_RESULT ]]
   then
     # If not found, error to user and exit
-    echo -e "\nI could not find that element in the database.\n"
+    echo -e "I could not find that element in the database."
   else
     # If found, query for element name and symbol, and read the results into variables
     ELEMENT=$($PSQL "SELECT atomic_number, symbol, name FROM elements WHERE atomic_number = $FIND_ELEMENT_RESULT")
@@ -41,11 +41,6 @@ else
     TYPE=$($PSQL "SELECT type FROM types WHERE type_id = $TYPE_ID")
 
     # Print result to user
-    echo $FIND_ELEMENT_RESULT
-    echo $ELEMENT
-    echo $PROPERTIES
-    echo $TYPE
-
-    echo -e "\nPLACEHOLDER STATEMENT: The element with atomic number 1 is Hydrogen (H). It's a nonmetal, with a mass of 1.008 amu. Hydrogen has a melting point of -259.1 celsius and a boiling point of -252.9 celsius.\n"
+    echo -e "The element with atomic number $ATOMIC_NUMBER is $NAME ($SYMBOL). It's a $TYPE, with a mass of $ATOMIC_MASS amu. $NAME has a melting point of $MELTING_POINT_CELSIUS celsius and a boiling point of $BOILING_POINT_CELSIUS celsius."
   fi
 fi
