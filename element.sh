@@ -14,8 +14,14 @@ if [[ -z $USER_INPUT ]]; then
   # Error to user, if no argument provided
   echo -e "Please provide an element as an argument."
 else
-  # Query database using user input
-  FIND_ELEMENT_RESULT=$($PSQL "SELECT * FROM elements WHERE atomic_number = $USER_INPUT OR symbol = '$USER_INPUT' OR name = '$USER_INPUT'")
+  # Check if input is numeric (for atomic_number) or a string (for symbol or name)
+  if [[ $USER_INPUT =~ ^[0-9]+$ ]]
+  then
+    # Query database using atomic_number and user input
+    FIND_ELEMENT_RESULT=$($PSQL "SELECT * FROM elements WHERE atomic_number = $USER_INPUT")
+  else 
+    FIND_ELEMENT_RESULT=$($PSQL "SELECT * FROM elements WHERE symbol = '$USER_INPUT' OR name = '$USER_INPUT'")
+  fi
 
   # Check if input matches atomic_number, symbol, or name from database
   if [[ -z $FIND_ELEMENT_RESULT ]]
