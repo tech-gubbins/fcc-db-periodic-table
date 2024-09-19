@@ -27,7 +27,7 @@ else
   if [[ -z $FIND_ELEMENT_RESULT ]]
   then
     # If not found, error to user and exit
-    echo "Element not found"
+    echo -e "\nI could not find that element in the database.\n"
   else
     # If found, print information to user
     echo "Element found"
